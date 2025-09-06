@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brazweed - Simplifying Cannabis Retail Operations</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="https://via.placeholder.com/120x40/000000/FFFFFF?text=BRAZWEED" alt="Brazweed Logo">
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                    <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <button class="nav-cta">Join Waitlist</button>
+                    <button class="nav-contact">Contact Us</button>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content-centered">
+                <div class="hero-badge">
+                    <span>Complete control, seamless experience</span>
+                </div>
+                <h1 class="hero-title">
+                    Everything you need to run and grow your store
+                </h1>
+                <p class="hero-description">
+                    Powerful cannabis retail. Simplified.
+                </p>
+                <div class="hero-cta-enhanced">
+                    <button class="btn-primary-enhanced">Join Waitlist</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Features Section -->
+    <section id="features" class="main-features">
+        <div class="container">
+            <div class="features-layout">
+                <div class="features-content">
+                    <p class="features-subtitle">Complete control, seamless experience</p>
+                    <h2 class="features-title">Everything you need to run your cannabis store</h2>
+                    
+                    <div class="features-list-compact">
+                        <div class="feature-item-compact">
+                            <div class="feature-icon-compact red">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="feature-text-compact">
+                                <h3>Admin Dashboard</h3>
+                                <p>Manage sales, inventory, and licenses from a single, easy-to-use dashboard.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item-compact">
+                            <div class="feature-icon-compact purple">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div class="feature-text-compact">
+                                <h3>Point of Sale</h3>
+                                <p>Sell in-store with fast transactions, real-time inventory sync, and compliance built-in.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item-compact">
+                            <div class="feature-icon-compact green">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="feature-text-compact">
+                                <h3>Compliance & Licensing</h3>
+                                <p>Automate reports, track licenses, and stay compliant with Canadian regulations.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item-compact">
+                            <div class="feature-icon-compact blue">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="feature-text-compact">
+                                <h3>E-Commerce</h3>
+                                <p>Sell online with your own branded store, integrated payments, and delivery options.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-simulator">
+                    <div class="simulator-container">
+                        <div class="simulator-header">
+                            <div class="simulator-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="simulator-title">Brazweed Dashboard</div>
+                        </div>
+                        
+                        <div class="simulator-content">
+                            <div class="simulator-sidebar">
+                                <div class="sidebar-nav">
+                                    <div class="nav-item active" data-tab="dashboard">
+                                        <i class="fas fa-chart-pie"></i>
+                                        <span>Dashboard</span>
+                                    </div>
+                                    <div class="nav-item" data-tab="sales">
+                                        <i class="fas fa-cash-register"></i>
+                                        <span>Sales</span>
+                                    </div>
+                                    <div class="nav-item" data-tab="inventory">
+                                        <i class="fas fa-boxes"></i>
+                                        <span>Inventory</span>
+                                    </div>
+                                    <div class="nav-item" data-tab="compliance">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <span>Compliance</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="simulator-main">
+                                <div class="tab-content active" id="dashboard-tab">
+                                    <div class="stats-overview">
+                                        <div class="stat-box">
+                                            <div class="stat-number">$12,450</div>
+                                            <div class="stat-label">Today's Sales</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-number">156</div>
+                                            <div class="stat-label">Orders</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-number">89%</div>
+                                            <div class="stat-label">Compliance</div>
+                                        </div>
+                                    </div>
+                                    <div class="chart-area">
+                                        <div class="chart-placeholder-interactive">
+                                            <canvas id="salesChart" width="300" height="150"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content" id="sales-tab">
+                                    <div class="sales-content">
+                                        <h3>Recent Transactions</h3>
+                                        <div class="transaction-list">
+                                            <div class="transaction-item">Order #1234 - $125.00</div>
+                                            <div class="transaction-item">Order #1235 - $89.50</div>
+                                            <div class="transaction-item">Order #1236 - $245.00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content" id="inventory-tab">
+                                    <div class="inventory-content">
+                                        <h3>Stock Levels</h3>
+                                        <div class="inventory-list">
+                                            <div class="inventory-item">Blue Dream - 25 units</div>
+                                            <div class="inventory-item">OG Kush - 18 units</div>
+                                            <div class="inventory-item">Sour Diesel - 32 units</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content" id="compliance-tab">
+                                    <div class="compliance-content">
+                                        <h3>Compliance Status</h3>
+                                        <div class="compliance-list">
+                                            <div class="compliance-item">✓ License Renewed</div>
+                                            <div class="compliance-item">✓ Reports Updated</div>
+                                            <div class="compliance-item">⚠ Review Required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Powerful Features Section -->
+    <section class="powerful-features">
+        <div class="container">
+            <div class="powerful-features-layout">
+                <div class="features-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-slide active" data-slide="0">
+                            <div class="slide-image">
+                                <div class="dashboard-mockup">
+                                    <div class="mockup-header">
+                                        <div class="header-dots">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <div class="header-title">Sales Dashboard</div>
+                                    </div>
+                                    <div class="mockup-body">
+                                        <div class="chart-area">
+                                            <canvas id="carouselChart1" width="280" height="120"></canvas>
+                                        </div>
+                                        <div class="stats-mini">
+                                            <div class="stat-mini">$15,420</div>
+                                            <div class="stat-mini">+12%</div>
+                                            <div class="stat-mini">1,234 orders</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide" data-slide="1">
+                            <div class="slide-image">
+                                <div class="compliance-mockup">
+                                    <div class="mockup-header">
+                                        <div class="header-dots">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <div class="header-title">Compliance Dashboard</div>
+                                    </div>
+                                    <div class="mockup-body">
+                                        <div class="compliance-items">
+                                            <div class="compliance-item-mock green">✓ License Valid</div>
+                                            <div class="compliance-item-mock green">✓ Reports Updated</div>
+                                            <div class="compliance-item-mock orange">⚠ Review Required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide" data-slide="2">
+                            <div class="slide-image">
+                                <div class="ecommerce-mockup">
+                                    <div class="mockup-header">
+                                        <div class="header-dots">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <div class="header-title">E-Commerce Store</div>
+                                    </div>
+                                    <div class="mockup-body">
+                                        <div class="product-grid">
+                                            <div class="product-card"></div>
+                                            <div class="product-card"></div>
+                                            <div class="product-card"></div>
+                                            <div class="product-card"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide" data-slide="3">
+                            <div class="slide-image">
+                                <div class="pos-mockup">
+                                    <div class="mockup-header">
+                                        <div class="header-dots">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <div class="header-title">POS System</div>
+                                    </div>
+                                    <div class="mockup-body">
+                                        <div class="pos-layout">
+                                            <div class="pos-cart">
+                                                <div class="cart-header">Current Sale</div>
+                                                <div class="cart-items">
+                                                    <div class="cart-item">
+                                                        <span class="item-name">Blue Dream - 3.5g</span>
+                                                        <span class="item-price">$45.00</span>
+                                                    </div>
+                                                    <div class="cart-item">
+                                                        <span class="item-name">OG Kush - 1g</span>
+                                                        <span class="item-price">$15.00</span>
+                                                    </div>
+                                                    <div class="cart-item">
+                                                        <span class="item-name">Edibles Pack</span>
+                                                        <span class="item-price">$25.00</span>
+                                                    </div>
+                                                </div>
+                                                <div class="cart-total">
+                                                    <div class="total-line">
+                                                        <span>Subtotal:</span>
+                                                        <span>$85.00</span>
+                                                    </div>
+                                                    <div class="total-line">
+                                                        <span>Tax:</span>
+                                                        <span>$8.50</span>
+                                                    </div>
+                                                    <div class="total-line final">
+                                                        <span>Total:</span>
+                                                        <span>$93.50</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pos-actions">
+                                                <button class="pos-btn primary">Process Payment</button>
+                                                <button class="pos-btn secondary">Add Item</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-indicators">
+                        <button class="indicator active" data-slide="0"></button>
+                        <button class="indicator" data-slide="1"></button>
+                        <button class="indicator" data-slide="2"></button>
+                        <button class="indicator" data-slide="3"></button>
+                    </div>
+                </div>
+                
+                <div class="features-content-right">
+                    <div class="section-header-right">
+                        <span class="section-badge">Powerful Features</span>
+                        <h2 class="section-title-right">Work Smarter with Powerful Features</h2>
+                        <p class="section-description-right">
+                            Effortlessly manage your cannabis store, stay compliant, and grow your business with Brazweed.
+                        </p>
+                    </div>
+                    
+                    <div class="features-columns">
+                        <div class="features-column">
+                            <div class="feature-item-right" data-feature="0">
+                                <div class="feature-icon-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-content-right">
+                                    <h3>Sales Dashboard</h3>
+                                    <p>Monitor sales and inventory in real time.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item-right" data-feature="1">
+                                <div class="feature-icon-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-content-right">
+                                    <h3>Compliance Automation</h3>
+                                    <p>Stay aligned with Canadian regulations automatically.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item-right" data-feature="2">
+                                <div class="feature-icon-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-content-right">
+                                    <h3>White-Label E-Commerce</h3>
+                                    <p>Sell online with your fully branded store.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="features-column">
+                            <div class="feature-item-right" data-feature="3">
+                                <div class="feature-icon-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-content-right">
+                                    <h3>Fast POS Checkout</h3>
+                                    <p>Speed up in-store sales with real-time inventory sync.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item-right" data-feature="1">
+                                <div class="feature-icon-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="feature-content-right">
+                                    <h3>License Management</h3>
+                                    <p>Track and renew licenses easily.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Pricing</span>
+                <h2 class="section-title">What Sets Brazweed Apart</h2>
+                <p class="section-description">
+                    Discover how Brazweed simplifies cannabis retail with complete features, full compliance, and unmatched affordability.
+                </p>
+            </div>
+            
+            <div class="billing-toggle">
+                <span class="billing-label">Billed Monthly</span>
+                <label class="toggle">
+                    <input type="checkbox" id="billing-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span class="billing-label">Billed yearly</span>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="plan-title">Basic</h3>
+                        <p class="plan-description">Perfect for small dispensaries</p>
+                        <div class="price-display">
+                            <span class="price-main">CAD $99</span>
+                            <span class="price-period">/ month</span>
+                        </div>
+                    </div>
+                    <button class="pricing-btn basic">Join waitlist</button>
+                    <div class="pricing-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>POS & Admin Dashboard</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Inventory Management</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Sales Tracking</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Compliance Monitoring</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-header">
+                        <h3 class="plan-title">Pro</h3>
+                        <p class="plan-description">Ideal for growing stores adding online sales</p>
+                        <div class="price-display">
+                            <span class="price-main">CAD $149</span>
+                            <span class="price-period">/ month</span>
+                        </div>
+                    </div>
+                    <button class="pricing-btn pro">Join waitlist</button>
+                    <div class="pricing-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Everything in Basic +</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>License Management</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Delivery & Pickup Management</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Payment Integrations</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Waitlist Section -->
+    <section class="join-waitlist">
+        <div class="container">
+            <div class="waitlist-content">
+                <h2>Join waitlist</h2>
+                <p>Start your free trial now to experience seamless project management without any commitment!</p>
+                <button class="btn-primary">Join waitlist</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="https://via.placeholder.com/120x40/FFFFFF/000000?text=BRAZWEED" alt="Brazweed Logo">
+                    <p>Powering Dispensaries and Simplifying Operations.</p>
+                    <a href="mailto:hello@brazweed.com" class="footer-email">hello@brazweed.com</a>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Pages</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Social</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Brazweed. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
