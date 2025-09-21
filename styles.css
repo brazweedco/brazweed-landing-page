@@ -2073,10 +2073,9 @@ input:checked + .slider:hover {
     right: 2rem;
     z-index: 1000;
     animation: floatUp 0.8s ease-out 1.5s both;
-}
-
-.floating-waitlist-btn.show-pulse .floating-btn-link {
-    animation: subtlePulse 4s ease-in-out infinite;
+    border: none;
+    outline: none;
+    background: none;
 }
 
 .floating-btn-link {
@@ -2089,16 +2088,14 @@ input:checked + .slider:hover {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: 0 6px 20px rgba(182, 88, 67, 0.3);
+    font-size: 0.9rem;    
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     cursor: pointer;
     white-space: nowrap;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    outline: none;
 }
 
 .floating-btn-link::before {
@@ -2116,16 +2113,19 @@ input:checked + .slider:hover {
     left: 100%;
 }
 
-.floating-btn-link:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(182, 88, 67, 0.4);
-    background: linear-gradient(135deg, var(--orange-light) 0%, var(--orange-color) 100%);
-    border-color: rgba(255, 255, 255, 0.2);
-}
 
 .floating-btn-link:active {
     transform: translateY(0) scale(0.98);
     transition: all 0.1s ease;
+}
+
+.floating-btn-link:focus {
+    outline: none;    
+}
+
+.floating-btn-link * {
+    border: none;
+    outline: none;
 }
 
 .floating-btn-link i {

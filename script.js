@@ -646,7 +646,7 @@ window.addEventListener('scroll', throttledScrollHandler);
 // Preload images for better performance
 function preloadImages() {
     const images = [
-        'https://via.placeholder.com/120x40/00C851/FFFFFF?text=BRAZWEED'
+        'logo-brazweed.svg'
     ];
     
     images.forEach(src => {
