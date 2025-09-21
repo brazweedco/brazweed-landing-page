@@ -72,48 +72,161 @@ function initSmoothScrolling() {
     });
 }
 
+// Pricing Configuration - Variables for easy management
+const PRICING_CONFIG = {
+    monthly: {
+        basic: 99,
+        pro: 149
+    },
+    yearly: {
+        basic: 89, // 10% discount for yearly billing
+        pro: 134   // 10% discount for yearly billing
+    },
+    currency: 'CAD',
+    discountPercentage: 10
+};
+
 // Pricing Toggle (Monthly/Yearly)
 function initPricingToggle() {
     const toggle = document.getElementById('billing-toggle');
-    const monthlyPrices = {
-        basic: 99,
-        pro: 149
-    };
-    const yearlyPrices = {
-        basic: 89, // 10% discount
-        pro: 134   // 10% discount
-    };
     
-    if (toggle) {
-        toggle.addEventListener('change', function() {
-            const isYearly = this.checked;
-            const prices = isYearly ? yearlyPrices : monthlyPrices;
-            const period = isYearly ? '/ year' : '/ month';
-            
-            // Update Basic plan price
-            const basicAmount = document.querySelector('.pricing-card:first-child .amount');
-            const basicPeriod = document.querySelector('.pricing-card:first-child .period');
-            
-            if (basicAmount) basicAmount.textContent = `$${prices.basic}`;
-            if (basicPeriod) basicPeriod.textContent = period;
-            
-            // Update Pro plan price
-            const proAmount = document.querySelector('.pricing-card.featured .amount');
-            const proPeriod = document.querySelector('.pricing-card.featured .period');
-            
-            if (proAmount) proAmount.textContent = `$${prices.pro}`;
-            if (proPeriod) proPeriod.textContent = period;
-            
-            // Add animation effect
-            const pricingCards = document.querySelectorAll('.pricing-card');
-            pricingCards.forEach(card => {
-                card.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    card.style.transform = '';
-                }, 150);
-            });
+    if (!toggle) {
+        console.warn('Pricing toggle not found');
+        return;
+    }
+    
+    // Initial setup
+    updatePricingDisplay(false);
+    
+    toggle.addEventListener('change', function() {
+        const isYearly = this.checked;
+        updatePricingDisplay(isYearly);
+        
+        // Add animation effect
+        animatePricingCards();
+        
+        // Update billing labels
+        updateBillingLabels(isYearly);
+        
+        console.log(`Switched to ${isYearly ? 'yearly' : 'monthly'} billing`);
+    });
+    
+    // Make labels clickable
+    const monthlyLabel = document.querySelector('.billing-label:first-child');
+    const yearlyLabel = document.querySelector('.billing-label:last-child');
+    
+    if (monthlyLabel) {
+        monthlyLabel.addEventListener('click', () => {
+            toggle.checked = false;
+            toggle.dispatchEvent(new Event('change'));
         });
     }
+    
+    if (yearlyLabel) {
+        yearlyLabel.addEventListener('click', () => {
+            toggle.checked = true;
+            toggle.dispatchEvent(new Event('change'));
+        });
+    }
+}
+
+function updatePricingDisplay(isYearly) {
+    const prices = isYearly ? PRICING_CONFIG.yearly : PRICING_CONFIG.monthly;
+    const period = isYearly ? '/ year' : '/ month';
+    
+    // Update Basic plan price
+    const basicAmount = document.querySelector('.pricing-card:not(.featured) .amount');
+    const basicPeriod = document.querySelector('.pricing-card:not(.featured) .period');
+    
+    if (basicAmount) {
+        basicAmount.textContent = prices.basic;
+        basicAmount.style.color = isYearly ? '#28a745' : '';
+    }
+    if (basicPeriod) {
+        basicPeriod.textContent = period;
+    }
+    
+    // Update Pro plan price
+    const proAmount = document.querySelector('.pricing-card.featured .amount');
+    const proPeriod = document.querySelector('.pricing-card.featured .period');
+    
+    if (proAmount) {
+        proAmount.textContent = prices.pro;
+        proAmount.style.color = isYearly ? '#28a745' : '';
+    }
+    if (proPeriod) {
+        proPeriod.textContent = period;
+    }
+    
+    // Add savings indicator for yearly billing
+    if (isYearly) {
+        addSavingsIndicator();
+    } else {
+        removeSavingsIndicator();
+    }
+}
+
+function updateBillingLabels(isYearly) {
+    const monthlyLabel = document.querySelector('.billing-label:first-child');
+    const yearlyLabel = document.querySelector('.billing-label:last-child');
+    
+    if (monthlyLabel && yearlyLabel) {
+        if (isYearly) {
+            monthlyLabel.style.opacity = '0.6';
+            yearlyLabel.style.opacity = '1';
+            yearlyLabel.style.fontWeight = '600';
+            yearlyLabel.style.color = 'var(--orange-light)';
+            monthlyLabel.style.color = 'var(--orange-color)';
+        } else {
+            monthlyLabel.style.opacity = '1';
+            monthlyLabel.style.fontWeight = '600';
+            monthlyLabel.style.color = 'var(--orange-light)';
+            yearlyLabel.style.opacity = '0.6';
+            yearlyLabel.style.color = 'var(--orange-color)';
+        }
+    }
+}
+
+function animatePricingCards() {
+    const pricingCards = document.querySelectorAll('.pricing-card');
+    pricingCards.forEach(card => {
+        card.style.transform = 'scale(0.98)';
+        card.style.transition = 'transform 0.2s ease';
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 200);
+    });
+}
+
+function addSavingsIndicator() {
+    // Remove existing indicators
+    removeSavingsIndicator();
+    
+    const pricingCards = document.querySelectorAll('.pricing-card');
+    pricingCards.forEach((card, index) => {
+        const planType = index === 0 ? 'basic' : 'pro';
+        const monthlyPrice = PRICING_CONFIG.monthly[planType];
+        const yearlyPrice = PRICING_CONFIG.yearly[planType];
+        const savings = monthlyPrice - yearlyPrice;
+        const savingsPercentage = Math.round((savings / monthlyPrice) * 100);
+        
+        const indicator = document.createElement('div');
+        indicator.className = 'savings-indicator';
+        indicator.innerHTML = `
+            <span class="savings-text">Save ${savingsPercentage}%</span>
+            <span class="savings-amount">$${savings}/month</span>
+        `;
+        
+        const priceDisplay = card.querySelector('.price-display');
+        if (priceDisplay) {
+            priceDisplay.appendChild(indicator);
+        }
+    });
+}
+
+function removeSavingsIndicator() {
+    const existingIndicators = document.querySelectorAll('.savings-indicator');
+    existingIndicators.forEach(indicator => indicator.remove());
 }
 
 // Scroll Animations
