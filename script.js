@@ -271,6 +271,8 @@ function initJoinWaitlistButtons() {
 
 // Waitlist Modal
 function openWaitlistModal() {
+    console.log('openWaitlistModal called');
+    
     // Create modal HTML
     const modalHTML = `
         <div class="modal-overlay" id="waitlist-modal">
@@ -359,13 +361,13 @@ function openWaitlistModal() {
                 justify-content: space-between;
                 align-items: center;
                 padding: 2rem 2rem 1rem;
-                border-bottom: 1px solid var(--border-light);
+                border-bottom: 1px solid #e5e7eb;
             }
             
             .modal-header h3 {
                 margin: 0;
                 font-size: 1.5rem;
-                color: var(--text-dark);
+                color: #1f2937;
             }
             
             .modal-close {
@@ -373,7 +375,7 @@ function openWaitlistModal() {
                 border: none;
                 font-size: 2rem;
                 cursor: pointer;
-                color: var(--text-gray);
+                color: #6b7280;
                 padding: 0;
                 width: 40px;
                 height: 40px;
@@ -385,8 +387,8 @@ function openWaitlistModal() {
             }
             
             .modal-close:hover {
-                background: var(--bg-light);
-                color: var(--text-dark);
+                background: #f3f4f6;
+                color: #1f2937;
             }
             
             .modal-body {
@@ -395,7 +397,7 @@ function openWaitlistModal() {
             
             .modal-body p {
                 margin-bottom: 1.5rem;
-                color: var(--text-gray);
+                color: #6b7280;
             }
             
             .form-group {
@@ -406,14 +408,14 @@ function openWaitlistModal() {
                 display: block;
                 margin-bottom: 0.5rem;
                 font-weight: 500;
-                color: var(--text-dark);
+                color: #1f2937;
             }
             
             .form-group input,
             .form-group select {
                 width: 100%;
                 padding: 0.75rem;
-                border: 2px solid var(--border-light);
+                border: 2px solid #e5e7eb;
                 border-radius: 8px;
                 font-size: 1rem;
                 transition: border-color 0.3s ease;
@@ -422,7 +424,7 @@ function openWaitlistModal() {
             .form-group input:focus,
             .form-group select:focus {
                 outline: none;
-                border-color: var(--primary-color);
+                border-color: #b65843;
             }
             
             .full-width {
@@ -439,36 +441,52 @@ function openWaitlistModal() {
     }
     
     // Add modal to DOM
+    console.log('Adding modal to DOM...');
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     
     const modal = document.getElementById('waitlist-modal');
-    const closeBtn = modal.querySelector('.modal-close');
-    const form = modal.querySelector('#waitlist-form');
+    const closeBtn = modal?.querySelector('.modal-close');
+    const form = modal?.querySelector('#waitlist-form');
+    
+    console.log('Modal elements found:', { modal: !!modal, closeBtn: !!closeBtn, form: !!form });
     
     // Show modal
     setTimeout(() => {
-        modal.classList.add('active');
+        if (modal) {
+            modal.classList.add('active');
+            console.log('Modal shown');
+        } else {
+            console.error('Modal not found after creation');
+        }
     }, 10);
     
     // Close modal handlers
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.remove();
+            }, 300);
+        });
+    }
+    
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        });
+    }
     
     // Form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        handleWaitlistSubmission(form);
-    });
-    
-    function closeModal() {
-        modal.classList.remove('active');
-        setTimeout(() => {
-            modal.remove();
-        }, 300);
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleWaitlistSubmission(form);
+        });
     }
 }
 
@@ -1046,3 +1064,74 @@ function drawCarouselChart() {
         ctx.fill();
     });
 }
+
+// Floating Waitlist Button Functions
+function initFloatingButton() {
+    const floatingBtn = document.getElementById('floatingWaitlistBtn');
+    const floatingBtnLink = floatingBtn?.querySelector('.floating-btn-link');
+    
+    if (!floatingBtn || !floatingBtnLink) {
+        console.log('Floating button elements not found');
+        return;
+    }
+    
+    console.log('Initializing floating button...');
+    
+    // Add subtle pulse animation after initial entrance
+    setTimeout(() => {
+        floatingBtn.classList.add('show-pulse');
+    }, 2500);
+    
+    // Add click event to open waitlist modal
+    floatingBtnLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Floating button clicked, opening modal...');
+        try {
+            if (typeof openWaitlistModal === 'function') {
+                openWaitlistModal();
+            } else {
+                console.error('openWaitlistModal function not found');
+            }
+        } catch (error) {
+            console.error('Error opening modal:', error);
+        }
+    });
+    
+    // Show/hide button based on scroll position
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Hide button when scrolling up quickly, show when scrolling down or at bottom
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            floatingBtn.style.transform = 'translateY(0)';
+            floatingBtn.style.opacity = '1';
+        } else if (scrollTop < lastScrollTop && scrollTop > 500) {
+            floatingBtn.style.transform = 'translateY(100px)';
+            floatingBtn.style.opacity = '0';
+        } else if (scrollTop <= 100) {
+            floatingBtn.style.transform = 'translateY(0)';
+            floatingBtn.style.opacity = '1';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
+    // Add hover effect for mobile devices
+    floatingBtnLink.addEventListener('touchstart', function() {
+        this.style.transform = 'translateY(-3px) scale(1.05)';
+    });
+    
+    floatingBtnLink.addEventListener('touchend', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initPricingToggle();
+    initScrollAnimations();
+    initMobileMenu();
+    initSmoothScrolling();    
+    initFloatingButton();
+});
