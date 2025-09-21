@@ -31,12 +31,24 @@ body {
     color: var(--text-dark);
     overflow-x: hidden;
     background: var(--hero-bg);
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+    overflow: hidden;
 }
 
 /* Typography */
@@ -44,6 +56,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .section-title {
@@ -78,8 +99,12 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .section-badge::before {
@@ -133,6 +158,9 @@ h1, h2, h3, h4, h5, h6 {
 .section-header {
     text-align: center;
     margin-bottom: 4rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .section-header .section-badge {
@@ -307,6 +335,8 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .hero-title {
@@ -402,6 +432,9 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr 1.5fr;
     gap: 4rem;
     align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .features-content {
@@ -682,6 +715,9 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Features Carousel */
@@ -990,6 +1026,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .section-header-right {
     margin-bottom: 3rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .section-header-right .section-badge {
@@ -1475,6 +1514,10 @@ input:checked + .slider:hover {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .container {
+        padding: 0 2rem;
+    }
+    
     .hero-title {
         font-size: 3rem;
     }
@@ -1483,15 +1526,15 @@ input:checked + .slider:hover {
         font-size: 2rem;
     }
     
-
-    
     .features-layout {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 3rem;
     }
     
     .features-content {
         text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
     }
     
     .features-title {
@@ -1506,6 +1549,8 @@ input:checked + .slider:hover {
     
     .features-content-right {
         text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
     }
     
     .section-title-right {
@@ -1520,6 +1565,8 @@ input:checked + .slider:hover {
     .features-columns {
         grid-template-columns: 1fr;
         gap: 2rem;
+        max-width: 500px;
+        margin: 0 auto;
     }
     
     .simulator-content {
@@ -1557,6 +1604,7 @@ input:checked + .slider:hover {
 }
 
 @media (max-width: 768px) {
+    /* Navigation */
     .nav-menu {
         display: none;
     }
@@ -1569,35 +1617,155 @@ input:checked + .slider:hover {
         display: flex;
     }
     
+    /* Containers */
+    .container {
+        padding: 0 1.5rem;
+        max-width: 100%;
+    }
+    
+    .nav-container {
+        padding: 0 1.5rem;
+    }
+    
+    /* Hero Section */
     .hero {
         padding: 100px 0 60px;
+        text-align: center;
+    }
+    
+    .hero-content-centered {
+        max-width: 100%;
+        padding: 0;
     }
     
     .hero-title {
         font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 1rem;
     }
     
     .hero-description {
         font-size: 1.1rem;
+        margin-bottom: 2rem;
     }
     
     .btn-primary-enhanced {
         padding: 1rem 2rem;
         font-size: 1rem;
+        width: auto;
+        max-width: 280px;
     }
     
-
+    .hero-badge {
+        margin-top: 1.5rem;
+    }
+    
+    /* Main Features */
+    .main-features {
+        padding: 60px 0;
+    }
+    
+    .features-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .features-content {
+        text-align: center;
+        max-width: 100%;
+    }
+    
+    .features-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .features-list-compact {
+        gap: 1.5rem;
+        max-width: 100%;
+    }
+    
+    .feature-item-compact {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    
+    .feature-icon-compact {
+        align-self: center;
+    }
+    
+    /* Powerful Features */
+    .powerful-features {
+        padding: 60px 0;
+    }
+    
+    .powerful-features-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .features-content-right {
+        text-align: center;
+        max-width: 100%;
+    }
+    
+    .section-title-right {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-description-right {
+        margin-bottom: 2rem;
+    }
+    
+    .features-columns {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 100%;
+    }
+    
+    .feature-item-right {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    
+    /* Pricing */
+    .pricing {
+        padding: 60px 0;
+    }
     
     .section-title {
         font-size: 1.8rem;
+        margin-bottom: 1rem;
     }
     
-    .features-grid {
-        grid-template-columns: 1fr;
+    .section-description {
+        font-size: 1rem;
+        margin-bottom: 2rem;
     }
     
     .pricing-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .billing-toggle {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        max-width: 300px;
+        margin: 0 auto 2rem;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 40px 0 20px;
     }
     
     .footer-content {
@@ -1607,57 +1775,211 @@ input:checked + .slider:hover {
     
     .footer-links {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
     
-    .container {
-        padding: 0 15px;
+    .footer-brand {
+        text-align: center;
     }
     
-    .nav-container {
-        padding: 0 15px;
+    .footer-brand img {
+        margin: 0 auto 1rem;
+    }
+    
+    /* Join Waitlist */
+    .join-waitlist {
+        padding: 60px 0;
+        text-align: center;
+    }
+    
+    .waitlist-content h2 {
+        font-size: 2rem;
+    }
+    
+    .waitlist-content p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
+    /* Containers */
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .nav-container {
+        padding: 0 1rem;
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 80px 0 40px;
+    }
+    
+    .hero-content-centered {
+        padding: 0;
+    }
+    
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        line-height: 1.3;
+        margin-bottom: 0.8rem;
     }
     
     .hero-description {
         font-size: 1rem;
+        margin-bottom: 1.5rem;
     }
     
     .btn-primary-enhanced {
-        padding: 1rem 1.5rem;
+        padding: 0.8rem 1.5rem;
         font-size: 0.95rem;
+        width: 100%;
+        max-width: 280px;
     }
     
-
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Main Features */
+    .main-features {
+        padding: 40px 0;
+    }
+    
+    .features-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .features-list-compact {
+        gap: 1.25rem;
+    }
+    
+    .feature-text-compact h3 {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .feature-text-compact p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    
+    /* Powerful Features */
+    .powerful-features {
+        padding: 40px 0;
+    }
+    
+    .section-title-right {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .section-description-right {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Pricing */
+    .pricing {
+        padding: 40px 0;
+    }
     
     .section-title {
         font-size: 1.5rem;
+        margin-bottom: 0.8rem;
     }
     
-    .footer-links {
-        grid-template-columns: 1fr;
+    .section-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .pricing-grid {
+        gap: 1rem;
+        max-width: 320px;
+    }
+    
+    .pricing-header {
+        padding: 1.25rem 1.25rem 0;
+    }
+    
+    .plan-title {
+        font-size: 1.4rem;
+    }
+    
+    .price-main {
+        font-size: 1.8rem;
+    }
+    
+    .pricing-btn {
+        width: calc(100% - 2.5rem);
+        margin: 0 1.25rem 1.25rem;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .pricing-features {
+        padding: 1rem 1.25rem 1.25rem;
+    }
+    
+    .feature-item {
+        padding: 0.5rem 0;
+        font-size: 0.9rem;
     }
     
     .billing-toggle {
         flex-direction: column;
         gap: 0.5rem;
+        padding: 0.8rem;
+        max-width: 280px;
     }
     
-    .pricing-header {
-        padding: 1.5rem 1.5rem 0;
+    .billing-label {
+        font-size: 0.9rem;
     }
     
-    .pricing-btn {
-        width: calc(100% - 3rem);
-        margin: 0 1.5rem 1.5rem;
+    /* Footer */
+    .footer {
+        padding: 30px 0 15px;
     }
     
-    .pricing-features {
-        padding: 1rem 1.5rem 1.5rem;
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .footer-brand p {
+        font-size: 0.9rem;
+    }
+    
+    .footer-email {
+        font-size: 0.9rem;
+    }
+    
+    /* Join Waitlist */
+    .join-waitlist {
+        padding: 40px 0;
+    }
+    
+    .waitlist-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .waitlist-content p {
+        font-size: 0.9rem;
+    }
+    
+    /* Section Badges */
+    .section-badge {
+        font-size: 0.8rem;
+        padding: 0.6rem 1.2rem;
+        margin-bottom: 1rem;
     }
 }
 
