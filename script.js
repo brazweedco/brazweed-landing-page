@@ -441,6 +441,9 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// Dynamic footer year
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
 // Performance Optimization: Throttle scroll events
 function throttle(func, limit) {
     let inThrottle;
