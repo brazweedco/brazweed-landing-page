@@ -421,31 +421,22 @@
                 </p>
             </div>
             
-            <div class="billing-toggle">
-                <span class="billing-label">Billed Monthly</span>
-                <label class="toggle">
-                    <input type="checkbox" id="billing-toggle">
-                    <span class="slider"></span>
-                </label>
-                <span class="billing-label">Billed yearly</span>
-            </div>
-
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <div class="pricing-header">
                         <h3 class="plan-title">Basic</h3>
-                        <p class="plan-description">Perfect for small dispensaries</p>
+                        <p class="plan-description">Perfect for small dispensaries — up to 3,000 orders/month</p>
                         <div class="price-display">
-                            <span class="price-main">CAD $<span class="amount">99</span></span>
-                            <span class="price-period"><span class="period">/ month</span></span>
+                            <span class="price-main">CAD $599</span>
+                            <span class="price-period">/ month</span>
                         </div>
                     </div>
-                    <button class="pricing-btn basic">Join waitlist</button>
+                    <button class="pricing-btn basic" data-plan="Basic Monthly — CAD $599/month">Join waitlist</button>
                     <div class="pricing-features">
                         <ul class="feature-list">
                             <li class="feature-item">
                                 <i class="fas fa-check feature-check"></i>
-                                <span>POS & Admin Dashboard</span>
+                                <span>POS &amp; Admin Dashboard</span>
                             </li>
                             <li class="feature-item">
                                 <i class="fas fa-check feature-check"></i>
@@ -459,20 +450,61 @@
                                 <i class="fas fa-check feature-check"></i>
                                 <span>Compliance Monitoring</span>
                             </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Up to 3,000 orders/month</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="pricing-card featured">
+                    <div class="pricing-badge">Best Value</div>
                     <div class="pricing-header">
-                        <h3 class="plan-title">Pro</h3>
-                        <p class="plan-description">Ideal for growing stores adding online sales</p>
+                        <h3 class="plan-title">Basic Annual</h3>
+                        <p class="plan-description">Same great features, billed annually — up to 3,000 orders/month</p>
                         <div class="price-display">
-                            <span class="price-main">CAD $<span class="amount">149</span></span>
-                            <span class="price-period"><span class="period">/ month</span></span>
+                            <span class="price-main">CAD $499</span>
+                            <span class="price-period">/ month</span>
+                        </div>
+                        <p class="price-note">Billed as CAD $5,988/year</p>
+                    </div>
+                    <button class="pricing-btn pro" data-plan="Basic Annual — CAD $499/month (billed annually)">Join waitlist</button>
+                    <div class="pricing-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>POS &amp; Admin Dashboard</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Inventory Management</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Sales Tracking</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Compliance Monitoring</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>Up to 3,000 orders/month</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pricing-card enterprise">
+                    <div class="pricing-header">
+                        <h3 class="plan-title">Enterprise</h3>
+                        <p class="plan-description">For high-volume stores with more than 3,000 orders/month</p>
+                        <div class="price-display">
+                            <span class="price-main enterprise-label">Custom Pricing</span>
                         </div>
                     </div>
-                    <button class="pricing-btn pro">Join waitlist</button>
+                    <button class="pricing-btn enterprise" data-plan="Enterprise (3,000+ orders/month)">Contact Us</button>
                     <div class="pricing-features">
                         <ul class="feature-list">
                             <li class="feature-item">
@@ -481,15 +513,19 @@
                             </li>
                             <li class="feature-item">
                                 <i class="fas fa-check feature-check"></i>
-                                <span>License Management</span>
+                                <span>Unlimited orders</span>
                             </li>
                             <li class="feature-item">
                                 <i class="fas fa-check feature-check"></i>
-                                <span>Delivery & Pickup Management</span>
+                                <span>Dedicated support</span>
                             </li>
                             <li class="feature-item">
                                 <i class="fas fa-check feature-check"></i>
-                                <span>Payment Integrations</span>
+                                <span>Custom integrations</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check feature-check"></i>
+                                <span>SLA &amp; priority onboarding</span>
                             </li>
                         </ul>
                     </div>
@@ -516,7 +552,7 @@
                 <div class="footer-brand">
                     <img src="logo-brazweed.svg" alt="Brazweed Logo">
                     <p>Powering Dispensaries and Simplifying Operations.</p>
-                    <a href="mailto:hello@brazweed.com" class="footer-email">hello@brazweed.com</a>
+                    <a href="mailto:root@brazweed.com" class="footer-email">root@brazweed.com</a>
                 </div>
                 
                 <div class="footer-links">

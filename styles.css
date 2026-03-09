@@ -1159,9 +1159,9 @@ p, span, div, a, button, .btn, .badge, .section-badge, .hero-badge {
 
 .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    max-width: 800px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -1173,12 +1173,18 @@ p, span, div, a, button, .btn, .badge, .section-badge, .hero-badge {
     border: 1px solid #f0f0f0;
     text-align: left;
     transition: all 0.3s ease;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .pricing-card.featured {
     border: 2px solid var(--orange-color);
     position: relative;
+    padding-top: 2.75rem;
+}
+
+.pricing-card.enterprise {
+    border: 1px solid #e0e0e0;
 }
 
 .pricing-card:hover {
@@ -1189,6 +1195,7 @@ p, span, div, a, button, .btn, .badge, .section-badge, .hero-badge {
 .pricing-header {
     padding: 2rem 2rem 0;
     background: white;
+    flex: 1;
 }
 
 .plan-title {
@@ -1226,6 +1233,7 @@ p, span, div, a, button, .btn, .badge, .section-badge, .hero-badge {
     background: #f8f9fa;
     padding: 1.5rem 2rem 2rem;
     border-top: 1px solid #f0f0f0;
+    border-radius: 0 0 16px 16px;
 }
 
 .feature-list {
@@ -1283,6 +1291,50 @@ p, span, div, a, button, .btn, .badge, .section-badge, .hero-badge {
 .pricing-btn.pro:hover {
     background: #1a1a1a;
     transform: translateY(-1px);
+}
+
+.pricing-btn.enterprise {
+    background: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--text-dark);
+}
+
+.pricing-btn.enterprise:hover {
+    background: var(--text-dark);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Pricing badge (Best Value) */
+.pricing-badge {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange-color);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+/* Price note (billed annually line) */
+.price-note {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+}
+
+/* Enterprise price label */
+.enterprise-label {
+    font-size: 1.6rem !important;
+    letter-spacing: 0 !important;
 }
 
 /* Savings Indicator */
@@ -1616,6 +1668,12 @@ input:checked + .slider:hover {
     .pricing-card.featured {
         transform: none;
     }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 420px;
+    }
     
     .mockup-container {
         transform: none;
@@ -1811,13 +1869,9 @@ input:checked + .slider:hover {
         max-width: 400px;
         margin: 0 auto;
     }
-    
+
     .billing-toggle {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-        max-width: 300px;
-        margin: 0 auto 2rem;
+        display: none;
     }
     
     /* Footer */

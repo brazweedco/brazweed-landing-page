@@ -72,162 +72,20 @@ function initSmoothScrolling() {
     });
 }
 
-// Pricing Configuration - Variables for easy management
+// Pricing Configuration
 const PRICING_CONFIG = {
-    monthly: {
-        basic: 99,
-        pro: 149
-    },
-    yearly: {
-        basic: 89, // 10% discount for yearly billing
-        pro: 134   // 10% discount for yearly billing
-    },
-    currency: 'CAD',
-    discountPercentage: 10
+    basic_monthly: 599,
+    basic_annual: 499,
+    currency: 'CAD'
 };
 
-// Pricing Toggle (Monthly/Yearly)
-function initPricingToggle() {
-    const toggle = document.getElementById('billing-toggle');
-    
-    if (!toggle) {
-        console.warn('Pricing toggle not found');
-        return;
-    }
-    
-    // Initial setup
-    updatePricingDisplay(false);
-    
-    toggle.addEventListener('change', function() {
-        const isYearly = this.checked;
-        updatePricingDisplay(isYearly);
-        
-        // Add animation effect
-        animatePricingCards();
-        
-        // Update billing labels
-        updateBillingLabels(isYearly);
-        
-        console.log(`Switched to ${isYearly ? 'yearly' : 'monthly'} billing`);
-    });
-    
-    // Make labels clickable
-    const monthlyLabel = document.querySelector('.billing-label:first-child');
-    const yearlyLabel = document.querySelector('.billing-label:last-child');
-    
-    if (monthlyLabel) {
-        monthlyLabel.addEventListener('click', () => {
-            toggle.checked = false;
-            toggle.dispatchEvent(new Event('change'));
-        });
-    }
-    
-    if (yearlyLabel) {
-        yearlyLabel.addEventListener('click', () => {
-            toggle.checked = true;
-            toggle.dispatchEvent(new Event('change'));
-        });
-    }
-}
+// Pricing Toggle — no longer used (3 static cards), kept as no-op
+function initPricingToggle() {}
 
-function updatePricingDisplay(isYearly) {
-    const prices = isYearly ? PRICING_CONFIG.yearly : PRICING_CONFIG.monthly;
-    const period = isYearly ? '/ year' : '/ month';
-    
-    // Update Basic plan price
-    const basicAmount = document.querySelector('.pricing-card:not(.featured) .amount');
-    const basicPeriod = document.querySelector('.pricing-card:not(.featured) .period');
-    
-    if (basicAmount) {
-        basicAmount.textContent = prices.basic;
-        basicAmount.style.color = isYearly ? '#28a745' : '';
-    }
-    if (basicPeriod) {
-        basicPeriod.textContent = period;
-    }
-    
-    // Update Pro plan price
-    const proAmount = document.querySelector('.pricing-card.featured .amount');
-    const proPeriod = document.querySelector('.pricing-card.featured .period');
-    
-    if (proAmount) {
-        proAmount.textContent = prices.pro;
-        proAmount.style.color = isYearly ? '#28a745' : '';
-    }
-    if (proPeriod) {
-        proPeriod.textContent = period;
-    }
-    
-    // Add savings indicator for yearly billing
-    if (isYearly) {
-        addSavingsIndicator();
-    } else {
-        removeSavingsIndicator();
-    }
-}
+// Removed: updatePricingDisplay, updateBillingLabels, animatePricingCards
+// Pricing is now static with 3 separate plan cards.
 
-function updateBillingLabels(isYearly) {
-    const monthlyLabel = document.querySelector('.billing-label:first-child');
-    const yearlyLabel = document.querySelector('.billing-label:last-child');
-    
-    if (monthlyLabel && yearlyLabel) {
-        if (isYearly) {
-            monthlyLabel.style.opacity = '0.6';
-            yearlyLabel.style.opacity = '1';
-            yearlyLabel.style.fontWeight = '600';
-            yearlyLabel.style.color = 'var(--orange-light)';
-            monthlyLabel.style.color = 'var(--orange-color)';
-        } else {
-            monthlyLabel.style.opacity = '1';
-            monthlyLabel.style.fontWeight = '600';
-            monthlyLabel.style.color = 'var(--orange-light)';
-            yearlyLabel.style.opacity = '0.6';
-            yearlyLabel.style.color = 'var(--orange-color)';
-        }
-    }
-}
-
-function animatePricingCards() {
-    const pricingCards = document.querySelectorAll('.pricing-card');
-    pricingCards.forEach(card => {
-        card.style.transform = 'scale(0.98)';
-        card.style.transition = 'transform 0.2s ease';
-        setTimeout(() => {
-            card.style.transform = '';
-        }, 200);
-    });
-}
-
-function addSavingsIndicator() {
-    // Remove existing indicators
-    removeSavingsIndicator();
-    
-    const pricingCards = document.querySelectorAll('.pricing-card');
-    pricingCards.forEach((card, index) => {
-        const planType = index === 0 ? 'basic' : 'pro';
-        const monthlyPrice = PRICING_CONFIG.monthly[planType];
-        const yearlyPrice = PRICING_CONFIG.yearly[planType];
-        const savings = monthlyPrice - yearlyPrice;
-        const savingsPercentage = Math.round((savings / monthlyPrice) * 100);
-        
-        const indicator = document.createElement('div');
-        indicator.className = 'savings-indicator';
-        indicator.innerHTML = `
-            <span class="savings-text">Save ${savingsPercentage}%</span>
-            <span class="savings-amount">$${savings}/month</span>
-        `;
-        
-        const priceDisplay = card.querySelector('.price-display');
-        if (priceDisplay) {
-            priceDisplay.appendChild(indicator);
-        }
-    });
-}
-
-function removeSavingsIndicator() {
-    const existingIndicators = document.querySelectorAll('.savings-indicator');
-    existingIndicators.forEach(indicator => indicator.remove());
-}
+// Removed: addSavingsIndicator, removeSavingsIndicator (no longer needed)
 
 // Scroll Animations
 function initScrollAnimations() {
@@ -255,7 +113,7 @@ function initScrollAnimations() {
     });
 }
 
-// Join Waitlist Buttons
+// Join Waitlist / Contact Buttons
 function initJoinWaitlistButtons() {
     const waitlistButtons = document.querySelectorAll(
         '.nav-cta, .btn-primary, .btn-primary-enhanced, .pricing-btn'
@@ -264,15 +122,25 @@ function initJoinWaitlistButtons() {
     waitlistButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            openWaitlistModal();
+            const plan = this.dataset.plan || '';
+            openWaitlistModal(plan);
         });
     });
 }
 
 // Waitlist Modal
-function openWaitlistModal() {
-    console.log('openWaitlistModal called');
+function openWaitlistModal(preselectedPlan) {
     
+    const planOptions = [
+        { value: 'Basic Monthly — CAD $599/month', label: 'Basic Monthly — CAD $599/month' },
+        { value: 'Basic Annual — CAD $499/month (billed annually)', label: 'Basic Annual — CAD $499/month (billed annually)' },
+        { value: 'Enterprise (3,000+ orders/month)', label: 'Enterprise — Custom Pricing (3,000+ orders)' }
+    ];
+    
+    const optionsHTML = planOptions.map(o => 
+        `<option value="${o.value}"${o.value === preselectedPlan ? ' selected' : ''}>${o.label}</option>`
+    ).join('');
+
     // Create modal HTML
     const modalHTML = `
         <div class="modal-overlay" id="waitlist-modal">
@@ -297,18 +165,13 @@ function openWaitlistModal() {
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone">
-                        </div>
-                        <div class="form-group">
                             <label for="plan">Interested Plan</label>
                             <select id="plan" name="plan" required>
                                 <option value="">Select a plan</option>
-                                <option value="basic">Basic - CAD $99/month</option>
-                                <option value="pro">Pro - CAD $149/month</option>
+                                ${optionsHTML}
                             </select>
                         </div>
-                        <button type="submit" class="btn-primary full-width">Join Waitlist</button>
+                        <button type="submit" class="btn-primary full-width">Send via WhatsApp</button>
                     </form>
                 </div>
             </div>
@@ -441,14 +304,11 @@ function openWaitlistModal() {
     }
     
     // Add modal to DOM
-    console.log('Adding modal to DOM...');
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     
     const modal = document.getElementById('waitlist-modal');
     const closeBtn = modal?.querySelector('.modal-close');
     const form = modal?.querySelector('#waitlist-form');
-    
-    console.log('Modal elements found:', { modal: !!modal, closeBtn: !!closeBtn, form: !!form });
     
     // Show modal
     setTimeout(() => {
@@ -490,70 +350,29 @@ function openWaitlistModal() {
     }
 }
 
-// Handle Waitlist Form Submission
+// Handle Waitlist Form Submission — opens WhatsApp with pre-filled message
 function handleWaitlistSubmission(form) {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Joining...';
-    submitBtn.disabled = true;
-    
-    // Simulate API call (replace with actual implementation)
-    setTimeout(() => {
-        // Success state
-        submitBtn.textContent = 'Success!';
-        submitBtn.style.background = '#6366f1';
-        
-        // Show success message
-        const modalBody = form.closest('.modal-body');
-        modalBody.innerHTML = `
-            <div class="success-message">
-                <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3>Welcome to the waitlist!</h3>
-                <p>Thank you for your interest in Brazweed. We'll be in touch soon with updates on our launch.</p>
-                <button class="btn-primary full-width" onclick="document.getElementById('waitlist-modal').querySelector('.modal-close').click()">
-                    Close
-                </button>
-            </div>
-        `;
-        
-        // Add success styles
-        const successStyles = `
-            .success-message {
-                text-align: center;
-                padding: 2rem 0;
-            }
-            
-            .success-icon {
-                font-size: 4rem;
-                color: var(--primary-color);
-                margin-bottom: 1rem;
-            }
-            
-            .success-message h3 {
-                color: var(--text-dark);
-                margin-bottom: 1rem;
-            }
-            
-            .success-message p {
-                color: var(--text-gray);
-                margin-bottom: 2rem;
-            }
-        `;
-        
-        const styleElement = document.createElement('style');
-        styleElement.textContent = successStyles;
-        document.head.appendChild(styleElement);
-        
-        // Log form data (replace with actual API call)
-        console.log('Waitlist submission:', data);
-        
-    }, 2000);
+
+    const message = [
+        '*Brazweed — Waitlist Request*',
+        '',
+        `*Business Name:* ${data.businessName || 'N/A'}`,
+        `*Contact Name:* ${data.contactName || 'N/A'}`,
+        `*Email:* ${data.email || 'N/A'}`,
+        `*Plan:* ${data.plan || 'N/A'}`
+    ].join('\n');
+
+    const waUrl = `https://wa.me/16042597965?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+    // Close modal after redirect
+    const modal = document.getElementById('waitlist-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => modal.remove(), 300);
+    }
 }
 
 // Header Scroll Effect
