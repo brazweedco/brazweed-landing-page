@@ -13,6 +13,7 @@ function initializeApp() {
     initHeaderScroll();
     initInteractiveSimulator();
     initFeaturesCarousel();
+    initPhoneTransitions();
 }
 
 // Mobile Menu Toggle
@@ -537,43 +538,41 @@ additionalStyles.textContent = `
 
 document.head.appendChild(additionalStyles);
 
-// Interactive Simulator
+// Phone Screenshot Carousels — handles every .phone-simulator on the page
 function initInteractiveSimulator() {
-    const navItems = document.querySelectorAll('.nav-item');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
-    // Tab switching functionality
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Remove active class from all nav items and tab contents
-            navItems.forEach(nav => nav.classList.remove('active'));
-            tabContents.forEach(tab => tab.classList.remove('active'));
-            
-            // Add active class to clicked nav item and corresponding tab
-            this.classList.add('active');
-            const targetContent = document.getElementById(targetTab + '-tab');
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
-            
-            // Update chart if dashboard tab is selected
-            if (targetTab === 'dashboard') {
-                setTimeout(() => {
-                    drawSalesChart();
-                }, 100);
-            }
+    document.querySelectorAll('.phone-simulator').forEach(simulator => {
+        const slides  = simulator.querySelectorAll('.phone-slide');
+        const dots    = simulator.querySelectorAll('.phone-dot');
+        const caption = simulator.querySelector('.phone-caption');
+        let current = 0;
+        let interval;
+
+        function goTo(index) {
+            slides[current].classList.remove('active');
+            dots[current].classList.remove('active');
+            current = index;
+            slides[current].classList.add('active');
+            dots[current].classList.add('active');
+            if (caption) caption.textContent = slides[current].alt;
+        }
+
+        function next() { goTo((current + 1) % slides.length); }
+
+        function startAutoplay() { interval = setInterval(next, 3000); }
+        function resetAutoplay()  { clearInterval(interval); startAutoplay(); }
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => { goTo(i); resetAutoplay(); });
         });
+
+        simulator.addEventListener('mouseenter', () => clearInterval(interval));
+        simulator.addEventListener('mouseleave', startAutoplay);
+
+        simulator._goTo          = goTo;
+        simulator._resetAutoplay = resetAutoplay;
+
+        startAutoplay();
     });
-    
-    // Initialize chart
-    setTimeout(() => {
-        drawSalesChart();
-    }, 500);
-    
-    // Animate stats on load
-    animateStats();
 }
 
 function drawSalesChart() {
@@ -715,86 +714,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Features Carousel
-function initFeaturesCarousel() {
-    const slides = document.querySelectorAll('.carousel-slide');
-    const indicators = document.querySelectorAll('.indicator');
-    const featureItems = document.querySelectorAll('.feature-item-right');
-    let currentSlide = 0;
-    let autoplayInterval;
-    
-    // Indicator click handlers
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            goToSlide(index);
+// Phone scroll transition: first phone recedes, second phone springs in
+function initPhoneTransitions() {
+    const firstPhone  = document.querySelector('.main-features .phone-simulator');
+    const secondPhone = document.getElementById('features-phone-simulator');
+    const powerful    = document.querySelector('.powerful-features');
+
+    if (!firstPhone || !secondPhone || !powerful) return;
+
+    // When the Powerful Features section enters view → recede first phone
+    const recedeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            firstPhone.classList.toggle('phone-recede', entry.isIntersecting);
         });
-    });
-    
-    // Feature item hover handlers
-    featureItems.forEach((item, index) => {
-        const featureIndex = parseInt(item.getAttribute('data-feature'));
-        
+    }, { threshold: 0.15 });
+
+    recedeObserver.observe(powerful);
+
+    // When the second phone enters view → spring it in (one-shot)
+    const enterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                secondPhone.classList.add('phone-animate-in');
+                enterObserver.unobserve(secondPhone);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    enterObserver.observe(secondPhone);
+}
+
+// Feature item hovers → jump to matching slide in the Powerful Features phone simulator
+function initFeaturesCarousel() {
+    const featuresSimulator = document.getElementById('features-phone-simulator');
+    if (!featuresSimulator) return;
+
+    document.querySelectorAll('.feature-item-right').forEach(item => {
+        const slideIndex = parseInt(item.getAttribute('data-feature'), 10);
+
         item.addEventListener('mouseenter', () => {
-            if (featureIndex !== undefined && featureIndex !== currentSlide) {
-                goToSlide(featureIndex);
+            if (!isNaN(slideIndex) && featuresSimulator._goTo) {
+                featuresSimulator._goTo(slideIndex);
+                featuresSimulator._resetAutoplay();
             }
         });
     });
-    
-    function goToSlide(index) {
-        // Remove active class from current slide and indicator
-        slides[currentSlide].classList.remove('active');
-        indicators[currentSlide].classList.remove('active');
-        
-        // Update current slide index
-        currentSlide = index;
-        
-        // Add active class to new slide and indicator
-        slides[currentSlide].classList.add('active');
-        indicators[currentSlide].classList.add('active');
-        
-        // Draw chart if it's the dashboard slide
-        if (currentSlide === 0) {
-            setTimeout(() => {
-                drawCarouselChart();
-            }, 100);
-        }
-        
-        // Reset autoplay
-        resetAutoplay();
-    }
-    
-    function nextSlide() {
-        const nextIndex = (currentSlide + 1) % slides.length;
-        goToSlide(nextIndex);
-    }
-    
-    function startAutoplay() {
-        autoplayInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
-    }
-    
-    function resetAutoplay() {
-        clearInterval(autoplayInterval);
-        startAutoplay();
-    }
-    
-    // Initialize chart and autoplay
-    setTimeout(() => {
-        drawCarouselChart();
-        startAutoplay();
-    }, 500);
-    
-    // Pause autoplay on hover
-    const carouselContainer = document.querySelector('.features-carousel');
-    if (carouselContainer) {
-        carouselContainer.addEventListener('mouseenter', () => {
-            clearInterval(autoplayInterval);
-        });
-        
-        carouselContainer.addEventListener('mouseleave', () => {
-            startAutoplay();
-        });
-    }
 }
 
 function drawCarouselChart() {
