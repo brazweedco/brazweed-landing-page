@@ -1,0 +1,54 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Never run two production deploys at once, and never cancel one mid-flight.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yaml
+
+  deploy:
+    name: Deploy to Vercel (production)
+    needs: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Configure "Required reviewers" on this environment in GitHub settings
+    # so a human must approve every production deploy.
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Pull Vercel project settings
+        run: npx --yes vercel@39 pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Build
+        run: npx --yes vercel@39 build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Deploy
+        id: deploy
+        run: |
+          url=$(npx --yes vercel@39 deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Deployed: $url" >> "$GITHUB_STEP_SUMMARY"

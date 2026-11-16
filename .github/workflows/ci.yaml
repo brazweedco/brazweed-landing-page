@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_call:
+
+# Least privilege: CI only needs to read the repo.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: JS syntax check
+        run: node --check script.js
+
+      - name: HTML validation
+        run: npx --yes html-validate@9 index.html
+
+      - name: Local references exist
+        run: |
+          # Every local src/href in index.html must point to a real file.
+          missing=0
+          for ref in $(grep -oE '(src|href)="[^"#:]+"' index.html | sed -E 's/^(src|href)="//; s/"$//' | sort -u); do
+            if [ ! -e "$ref" ]; then echo "::error::Missing file referenced in index.html: $ref"; missing=1; fi
+          done
+          exit $missing
+
+      - name: External hosts allowlist
+        run: |
+          # Block unexpected third-party scripts/styles/fetches (supply-chain guard for AI-written code).
+          allowed='fonts\.googleapis\.com|fonts\.gstatic\.com|cdnjs\.cloudflare\.com|wa\.me|www\.w3\.org|www\.linkedin\.com|www\.instagram\.com'
+          bad=$(grep -noE 'https?://[A-Za-z0-9.-]+' index.html script.js styles.css \
+                | grep -vE "://($allowed)$" || true)
+          if [ -n "$bad" ]; then
+            echo "::error::Non-allowlisted external host(s) found:"; echo "$bad"; exit 1
+          fi
+
+      - name: Forbid dangerous JS patterns
+        run: |
+          pattern='\beval\(|new Function\(|document\.write\(|atob\(|import\(\s*["'"'"']https?:'
+          if grep -nE "$pattern" script.js; then
+            echo "::error::Forbidden JS pattern found"; exit 1
+          fi
+
+      - name: Restrict repository file types
+        run: |
+          # Fail on unexpected files (binaries, env files, keys, scripts).
+          bad=$(git ls-files | grep -vE '^(\.github/workflows/[^/]+\.ya?ml|vercel\.json|\.htmlvalidate\.json|CLAUDE\.md|README\.md|index\.html|styles\.css|script\.js|logo-brazweed\.svg|\.gitignore|assets/[^/]+\.(jpe?g|png|webp|svg))$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::Files outside the allowlist (update ci.yaml deliberately if intended):"; echo "$bad"; exit 1
+          fi
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: gitleaks
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar -xz gitleaks
+          ./gitleaks detect --source . --no-banner --redact
+
+  trivy:
+    name: Trivy scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # Binary installed directly (pinned version) instead of a third-party action.
+      - name: Install Trivy
+        run: |
+          curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.58.1/trivy_0.58.1_Linux-64bit.tar.gz | tar -xz trivy
+          ./trivy --version
+
+      # Full report (all severities) in the job summary, never fails the build.
+      - name: Report (all severities)
+        run: |
+          {
+            echo '## Trivy report'
+            echo '```'
+            ./trivy fs . --scanners vuln,secret,misconfig --format table --exit-code 0
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      # Gate: fail on HIGH/CRITICAL findings.
+      - name: Gate (HIGH/CRITICAL)
+        run: ./trivy fs . --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1
+
+  workflows:
+    name: Lint workflows
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: actionlint
+        run: |
+          bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.4/scripts/download-actionlint.bash) 1.7.4
+          ./actionlint
