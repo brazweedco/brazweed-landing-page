@@ -1,0 +1,44 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "POS Platform",
+  "description": "Documentação técnica da POS Platform multi-tenant (Spring Boot · PostgreSQL · LocalStack · Stripe)",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#55D799",
+    "dark": "#0D9373"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Começando",
+        "pages": [
+          "agents/00-INDEX",
+          "agents/01-SYSTEM-OVERVIEW",
+          "agents/05-LOCALSTACK-DOCKER"
+        ]
+      },
+      {
+        "group": "Arquitetura",
+        "pages": [
+          "agents/02-BACKEND-STRUCTURE",
+          "agents/03-DATABASE-SCHEMA"
+        ]
+      },
+      {
+        "group": "API",
+        "pages": [
+          "agents/04-API-SPRINT2",
+          "agents/06-API-SPRINT3",
+          "agents/07-API-SPRINT4"
+        ]
+      },
+      {
+        "group": "Planejamento",
+        "pages": [
+          "agents/09-ROADMAP"
+        ]
+      }
+    ]
+  }
+}
